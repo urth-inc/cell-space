@@ -71,7 +71,6 @@ def simulate(graph_path, start_date=dt.datetime.today()):
     all_v_size = len(graph.keys())
     p = 5 / 6
     p_diff = p / all_v_size
-    print(p_diff)
     week = 0
     cur_date = get_next_monday(start_date)
     visited = set()
