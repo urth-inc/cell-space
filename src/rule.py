@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import datetime as dt
 import random
 
@@ -40,7 +41,7 @@ def get_next_monday(date):
     return next_monday_noon
 
 
-def print_result(week, date, selected_cell, p):
+def _print_result(week, date, selected_cell, p):
     str_date = date.strftime("%Y-%m-%d")
     if selected_cell is None:
         str_selected = "not selected"
@@ -49,37 +50,43 @@ def print_result(week, date, selected_cell, p):
     print(f"week {week:>3}, date {str_date}, {str_selected:>12}, p={p:.3f}")
 
 
+def _choose_cell(frontier, cur_date):
+    seed = get_seed(cur_date)
+    idx = seed % len(frontier)
+    sorted_frontier = sorted(list(frontier))
+    v = sorted_frontier[idx]
+    return v
+
+
+def generage_cell(p, frontier, cur_date):
+    q = random.uniform(0, 1)
+    if q > p:
+        return None
+    v = _choose_cell(frontier, cur_date)
+    return v
+
+
 def simulate(graph_path, start_date=dt.datetime.today()):
     graph = get_graph(graph_path)
     all_v_size = len(graph.keys())
     p = 5 / 6
     p_diff = p / all_v_size
-    week = 1
+    print(p_diff)
+    week = 0
     cur_date = get_next_monday(start_date)
     visited = set()
-    visited_order = []
-    frontier = set()  # NOTE: データ構造が良くないが頂点すうが小さいので何とかなる
-    v = 1
-    visited.add(v)
-    visited_order.append(v)
-    print_result(week, cur_date, v, p)
-    p -= p_diff
+    frontier = set([1])
     for adj in graph[1]:
         frontier.add(adj)
     while len(visited) < all_v_size:
         week += 1
         cur_date += dt.timedelta(weeks=1)
-        q = random.uniform(0, 1)
-        if q > p:
-            print_result(week, cur_date, None, p)
+        v = generage_cell(p, frontier, cur_date)
+        if v is None:
+            _print_result(week, cur_date, None, p)
             continue
-        seed = get_seed(cur_date)
-        idx = seed % len(frontier)
-        sorted_frontier = sorted(list(frontier))
-        v = sorted_frontier[idx]
         visited.add(v)
-        visited_order.append(v)
-        print_result(week, cur_date, v, p)
+        _print_result(week, cur_date, v, p)
         for adj in graph[v]:
             if adj not in visited:
                 frontier.add(adj)
