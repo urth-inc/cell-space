@@ -15,15 +15,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git checkout cellspace-bot
           python3 ./src/generate.py
           git config user.name 'cellspace Bot'
           git config user.email 'cellspace-bot@u-rth.com'
           git commit -am "add result $(date +%Y%m%d)"
-          git push origin cellspace-bot
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+          git push origin main
 
       - name: test # test to check if system ends generation
         run: |
