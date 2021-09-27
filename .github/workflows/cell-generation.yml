@@ -17,6 +17,10 @@ jobs:
       - name: Generate cell
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY }}
         run: |
           pip install -r requirements.txt
           cd ./src
