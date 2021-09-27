@@ -2,9 +2,7 @@ name: Scheduled cell generation
 
 on:
   schedule:
-    # runs on Monday 12:00(JST)
-    # runs on Monday 03:00(UTC)
-    - cron: '* * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   cell-generation:
