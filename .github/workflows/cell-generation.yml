@@ -20,7 +20,7 @@ jobs:
 
       - name: Generate cell
         run: |
-          sh ./src/generate.py
+          python3 ./src/generate.py
           git config user.name 'cellspace Bot'
           git config user.email 'cellspace-bot@u-rth.com'
           git commit -am "add result $(date +%Y%m%d)"
