@@ -15,7 +15,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 ./src/generate.py
+          cd ./src
+          python3 ./generate.py
           git config user.name 'cellspace Bot'
           git config user.email 'cellspace-bot@u-rth.com'
           git commit -am "add result $(date +%Y%m%d)"
