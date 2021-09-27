@@ -24,5 +24,6 @@ jobs:
 
       - name: test # test to check if system ends generation
         run: |
-          bash ./src/end_test.sh
+          cd ./src
+          bash ./end_test.sh
         timeout-minutes: 5
