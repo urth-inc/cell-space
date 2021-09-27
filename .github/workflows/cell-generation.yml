@@ -19,6 +19,7 @@ jobs:
           python3 ./generate.py
           git config user.name 'cellspace Bot'
           git config user.email 'cellspace-bot@u-rth.com'
+          git add ../tweets/
           git commit -am "add result $(date +%Y%m%d)"
           git push origin main
 
