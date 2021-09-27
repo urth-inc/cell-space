@@ -18,7 +18,7 @@ def get_seed(date):
     p_under8_5 = population % int(1e8) // int(1e4)
     p_under4 = population % int(1e4)
     seed = random.randrange(min(p_under8_5, p_under4), max(p_under8_5, p_under4))
-    return seed
+    return seed, population
 
 
 def get_graph(path):
@@ -51,19 +51,19 @@ def _print_result(week, date, selected_cell, p):
 
 
 def _choose_cell(frontier, cur_date):
-    seed = get_seed(cur_date)
+    seed, population = get_seed(cur_date)
     idx = seed % len(frontier)
     sorted_frontier = sorted(list(frontier))
     v = sorted_frontier[idx]
-    return v
+    return v, seed, population
 
 
 def generage_cell(p, frontier, cur_date):
     q = random.uniform(0, 1)
     if q > p:
-        return None
-    v = _choose_cell(frontier, cur_date)
-    return v
+        return None, p, None, None
+    v, seed, population = _choose_cell(frontier, cur_date)
+    return v, p, seed, population
 
 
 def simulate(graph_path, start_date=dt.datetime.today()):

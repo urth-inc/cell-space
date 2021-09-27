@@ -49,6 +49,24 @@ def _write_result(result_path, cur_week, cur_date, new_v, cur_p, next_p):
     return ",".join(map(str, fields))
 
 
+def _tweet(population, seed, new_v, cur_p):
+    if new_v is None:
+        tweet_str = "セルは生成されませんでした。\n" f"今回の生成結果 : {cur_p:.1%}"
+    else:
+        tweet_str = (
+            "セルが生成されました。"
+            f"世界人口 : {population}人\n"
+            f"選定乱数 : {seed}\n"
+            f"抽出結果 : {new_v:02}番\n"
+            f"今回の生成結果 : {cur_p:.1%}"
+        )
+    tweet_str = "(テストです。)" + tweet_str
+    today = dt.datetime.now().strftime("%Y-%m-%d")
+    tweet_file_path = f"../tweets/{today}-result.tweet"
+    with open(tweet_file_path, "w") as f:
+        f.write(tweet_str)
+
+
 def generate_cell(graph_path, result_path, init_v=1):
     graph = rule.get_graph(graph_path)
     frontier, visited, cur_week, cur_p = _read_results(graph, result_path, init_v)
@@ -57,15 +75,15 @@ def generate_cell(graph_path, result_path, init_v=1):
         print("no frontier")
         exit(1)
     today = dt.datetime.today()
-    new_v = rule.generage_cell(cur_p, frontier, today)
+    new_v, p, seed, population = rule.generage_cell(cur_p, frontier, today)
     p_diff = _calc_p_diff(graph, init_v)
     if new_v is None:
         next_p = cur_p
     else:
         next_p = cur_p - p_diff
-    write_result = _write_result(result_path, cur_week, today, new_v, cur_p, next_p)
-    print(f"result: {write_result}")
-    # TODO: Tweet
+    result = _write_result(result_path, cur_week, today, new_v, cur_p, next_p)
+    print(f"result: {result}")
+    _tweet(population, seed, new_v, p)
 
 
 if __name__ == "__main__":
