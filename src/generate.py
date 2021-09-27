@@ -2,6 +2,8 @@
 import csv
 import datetime as dt
 import argparse
+from twitter import Twitter, OAuth
+import os
 
 import rule
 
@@ -54,17 +56,19 @@ def _tweet(population, seed, new_v, cur_p):
         tweet_str = "セルは生成されませんでした。\n" f"今回の生成結果 : {cur_p:.1%}"
     else:
         tweet_str = (
-            "セルが生成されました。"
+            "セルが生成されました。\n"
             f"世界人口 : {population}人\n"
             f"選定乱数 : {seed}\n"
             f"抽出結果 : {new_v:02}番\n"
             f"今回の生成結果 : {cur_p:.1%}"
         )
-    tweet_str = "(テストです。)" + tweet_str
-    today = dt.datetime.now().strftime("%Y-%m-%d")
-    tweet_file_path = f"../tweets/{today}-result.tweet"
-    with open(tweet_file_path, "w") as f:
-        f.write(tweet_str)
+    tweet_str = "(テストです。)\n" + tweet_str
+    access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
+    access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+    api_key = os.environ.get("TWITTER_API_KEY")
+    api_secret = os.environ.get("TWITTER_API_SECRET_KEY")
+    t = Twitter(auth=OAuth(access_token, access_token_secret, api_key, api_secret))
+    t.statuses.update(status=tweet_str)
 
 
 def generate_cell(graph_path, result_path, init_v=1):
