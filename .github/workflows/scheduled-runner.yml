@@ -4,7 +4,7 @@ on:
   schedule:
     # runs on Monday 12:00(JST)
     # runs on Monday 03:00(UTC)
-    - cron: '*/3 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   cell-generation:
