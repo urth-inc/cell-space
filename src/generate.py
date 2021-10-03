@@ -62,13 +62,12 @@ def _tweet(population, seed, new_v, cur_p):
             f"抽出結果 : {new_v:02}番\n"
             f"今回の生成結果 : {cur_p:.1%}"
         )
-    print(tweet_str)
-    # access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
-    # access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
-    # api_key = os.environ.get("TWITTER_API_KEY")
-    # api_secret = os.environ.get("TWITTER_API_SECRET_KEY")
-    # t = Twitter(auth=OAuth(access_token, access_token_secret, api_key, api_secret))
-    # t.statuses.update(status=tweet_str)
+    access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
+    access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+    api_key = os.environ.get("TWITTER_API_KEY")
+    api_secret = os.environ.get("TWITTER_API_SECRET_KEY")
+    t = Twitter(auth=OAuth(access_token, access_token_secret, api_key, api_secret))
+    t.statuses.update(status=tweet_str)
 
 
 def generate_cell(graph_path, result_path, init_v=1):
