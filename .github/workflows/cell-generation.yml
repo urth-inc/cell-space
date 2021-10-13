@@ -1,10 +1,8 @@
 name: Cell generation
 
 on:
-  schedule:
-    # runs on Monday 12:00(JST)
-    # runs on Monday 03:00(UTC)
-    - cron: '0 3 * * 1'
+  repository_dispatch:
+    types: [generate_cell]
 
 jobs:
   cell-generation:
